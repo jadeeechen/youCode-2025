@@ -14,7 +14,7 @@ const center = {
 
 const apiKey = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
 
-const directionsList = [[{location: "290 E 1st Ave Unit 100, Vancouver, BC V5T 1A6"}, {location: "1285 W Broadway #600, Vancouver, BC V6H 3X8"}]]
+const directionsList = [[{location: "290 E 1st Ave Unit 100, Vancouver, BC V5T 1A6"}, {location: "1285 W Broadway #600, Vancouver, BC V6H 3X8"}], [{location: "290 E 1st Ave Unit 100, Vancouver, BC V5T 1A6"}, {location: "kitsilano"}]]
 
 function Map() {
   const { isLoaded } = useJsApiLoader({
@@ -25,6 +25,9 @@ function Map() {
   const [_, setMap] = React.useState(null)
   const [origin, setOrigin] = useState("")
   const [destination, setDestination] = useState("")
+  const [travelDistanceInM, setTravelDistanceInM] = useState(0)
+  const [minAltRouteDist, setMinDistance] = useState(0)
+  const [minAltRouteNum, setMinNum] = useState(-1)
   const [directions, setDirections] = useState(null)
   const [alt_directions, setAltDirections] = useState("")
   const [travelTime, setTravelTime] = useState('')
@@ -42,14 +45,12 @@ function Map() {
     if (!origin || !destination || !window) return
     
     const directionsService = new window.google.maps.DirectionsService();
-    distM = 0;
 
     directionsService.route(
         {
             origin,
             destination,
             travelMode: window.google.maps.TravelMode.DRIVING,
-            waypoints: [{location: "kitsilano"}, {location: "UBC"}]
         },
         (result, status) => {
             if (status === "OK") {
@@ -57,7 +58,10 @@ function Map() {
                 const duration = result.routes[0].legs[0].duration.text
                 setTravelTime(duration)
                 const distance = result.routes[0].legs[0].distance.text
-                distM = result.routes[0].legs[0].distance.value
+                const distM = result.routes[0].legs[0].distance.value
+                setTravelDistanceInM(distM)
+                setMinDistance(distM*3)
+                setMinNum(-1)
                 setTravelDistance(distance)
             } else {
                 alert("Directions request failed due to " + status)
@@ -65,8 +69,8 @@ function Map() {
         }
     );
 
-    min_dist = distM
-    min_dist_route_num = 0
+    console.info(minAltRouteDist)
+
     for (let i = 0; i < directionsList.length; i++){
       directionsService.route(
         {
@@ -77,14 +81,18 @@ function Map() {
         },
         (result, status) => {
             if (status === "OK") {
-              legs = result.routes[0].legs
-              current_distance = 0
+              var legs = result.routes[0].legs
+              let current_distance = 0
               for (let j = 0; j<legs.length; j++){
                 current_distance += result.routes[0].legs[j].distance.value
               }
-              if (current_distance<min_dist){
-                min_dist = current_distance
-                min_dist_route_num = i
+              console.info(current_distance)
+              if (current_distance<minAltRouteDist){
+                console.info("here")
+                setMinDistance(current_distance)
+                setMinNum(i)
+                console.info(minAltRouteNum)
+                console.info(minAltRouteDist)
               }
             } else {
               alert("Directions request failed due to " + status)
@@ -93,21 +101,25 @@ function Map() {
       );
     }
 
-    directionsService.route(
-      {
-          origin,
-          destination,
-          travelMode: window.google.maps.TravelMode.DRIVING,
-          waypoints: directionsList[min_dist_route_num]
-      },
-      (result, status) => {
-          if (status === "OK") {
-            setAltDirections(result);
-          } else {
-              alert("Directions request failed due to " + status)
-          }
-      }
-    );
+    console.info(minAltRouteNum)
+
+    if (minAltRouteNum != -1){
+      directionsService.route(
+        {
+            origin,
+            destination,
+            travelMode: window.google.maps.TravelMode.DRIVING,
+            waypoints: directionsList[minAltRouteNum]
+        },
+        (result, status) => {
+            if (status === "OK") {
+              setAltDirections(result);
+            } else {
+                alert("Directions request failed due to " + status)
+            }
+        }
+      );
+    }
     
   }
 
