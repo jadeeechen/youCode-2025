@@ -22,6 +22,9 @@ const Leaderboard = () => {
             id: doc.id,
             name: doc.data().name,
             trips: doc.data().deliveries,
+            co2: doc.data().co2,
+            meals: doc.data().meals,
+            ppf: doc.data().ppf
           });
         });
 
@@ -67,6 +70,9 @@ const Leaderboard = () => {
           id: doc.id,
           name: doc.data().name,
           trips: doc.data().deliveries,
+          co2: doc.data().co2,
+          meals: doc.data().meals,
+          ppf: doc.data().ppf
         });
       });
 
@@ -83,9 +89,9 @@ const Leaderboard = () => {
 
       <div className="stats-container">
         <h3>Your Total Impact</h3>
-        <p><span role="img" aria-label="meal">🥘</span> Meals Rescued: 47</p>
-        <p><span role="img" aria-label="co2">🌱</span> CO2 Reduced: 21.6 kg</p>
-        <p><span role="img" aria-label="people">👩‍👩‍👧‍👦</span> People Fed: 25</p>
+        <p><span role="img" aria-label="meal">🥘</span> Meals Rescued: {leaderboard.find(player => player.name === name)?.meals || 0}</p>
+        <p><span role="img" aria-label="co2">🌱</span> CO2 Reduced: {leaderboard.find(player => player.name === name)?.co2 || 0} kg</p>
+        <p><span role="img" aria-label="people">👩‍👩‍👧‍👦</span> People Fed: {leaderboard.find(player => player.name === name)?.ppf || 0}</p>
         <p><span role="img" aria-label="rescue">🚙</span>  Rescue Trips: {leaderboard.find(player => player.name === name)?.trips || 0}</p>
       </div>
 
@@ -108,6 +114,9 @@ const Leaderboard = () => {
               <th>Rank</th>
               <th>Name</th>
               <th>Trips</th>
+              <th>CO2 Reduced</th>
+              <th>Meals Rescued</th>
+              <th>People Fed</th>
             </tr>
           </thead>
           <tbody>
@@ -117,6 +126,9 @@ const Leaderboard = () => {
                   <td>{index + 1}</td>
                   <td>{player.name}</td>
                   <td>{player.trips}</td>
+                  <td>{player.co2}</td>
+                  <td>{player.meals}</td>
+                  <td>{player.ppf}</td>
                 </tr>
               ))
             ) : (
