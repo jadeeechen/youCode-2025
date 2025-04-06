@@ -104,7 +104,7 @@ function MapDetour() {
             console.log(result)
               if (status === "OK" && result != null) {
                 setDirections(result)
-                setTravelTime(minTravelTime/60)
+                setTravelTime(Math.round(minTravelTime/60))
                 return
               } else {
                   alert("Directions request failed due to " + status)
