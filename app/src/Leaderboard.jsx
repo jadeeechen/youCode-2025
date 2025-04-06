@@ -86,7 +86,7 @@ const Leaderboard = () => {
         <p><span role="img" aria-label="meal">🥘</span> Meals Rescued: 47</p>
         <p><span role="img" aria-label="co2">🌱</span> CO2 Reduced: 21.6 kg</p>
         <p><span role="img" aria-label="people">👩‍👩‍👧‍👦</span> People Fed: 25</p>
-        <p><span role="img" aria-label="rescue">🚙</span> Rescue Trips: 12</p>
+        <p><span role="img" aria-label="rescue">🚙</span>  Rescue Trips: {leaderboard.find(player => player.name === name)?.trips || 0}</p>
       </div>
 
       {!isSubmitted && (
