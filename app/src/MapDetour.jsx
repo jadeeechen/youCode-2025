@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useMemo } from 'react'
 import { GoogleMap, useJsApiLoader, DirectionsRenderer } from '@react-google-maps/api'
-import { useLocation } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 
 const containerStyle = {
   width: '400px',
@@ -26,6 +26,12 @@ function MapDetour() {
       })
     
       const { state } = useLocation();
+
+      const navigate = useNavigate();
+      
+      const handleNext = () => {
+        navigate('/leaderboard')
+      }
     
       const origin = state?.origin
       const destination = state?.destination
@@ -102,6 +108,8 @@ function MapDetour() {
           </div>
   
           {travelTime && <div className="travel-time">Estimated Time: {travelTime}</div>}
+
+          <button className="go-next" onClick={handleNext}>Go Next</button>
   
       </div>
       

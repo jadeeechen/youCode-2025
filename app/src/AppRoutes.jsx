@@ -5,6 +5,7 @@ import Map from './Map'
 import MapDirections from './MapDirections'
 import MapDetour from './MapDetour'
 import SignIn from './SignIn'
+import Leaderboard from './Leaderboard'
 import './App.css'
 
 function AppRoutes() {
@@ -23,6 +24,7 @@ function AppRoutes() {
         <Route path="/map" element={<Map/>}/>
         <Route path="/directions" element={<MapDirections/>}/>
         <Route path="/detour-directions" element={<MapDetour/>}/>
+        <Route path="/leaderboard" element={<Leaderboard/>}/>
       </Routes>
   );
 }
