@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { GoogleMap, useJsApiLoader, DirectionsRenderer } from '@react-google-maps/api'
-
+import { useNavigate } from 'react-router-dom'
 
 const containerStyle = {
   width: '400px',
@@ -23,6 +23,8 @@ function Map() {
   const [_, setMap] = React.useState(null)
   const [origin, setOrigin] = useState("")
   const [destination, setDestination] = useState("")
+
+  const navigate = useNavigate();
   const [waypoint1, setWaypoint1] = useState("")
   const [waypoint2, setWaypoint2] = useState("")
   const [directions, setDirections] = useState([])
@@ -39,10 +41,15 @@ function Map() {
     setMap(null)
   }, [])
 
-  const handleRoute = () => {
+  const handleSubmit = () => {
     if (!origin || !destination || !window) return
-    
-    const directionsService = new window.google.maps.DirectionsService();
+
+    navigate('/directions', {
+      state: {
+        origin,
+        destination
+      } 
+    });
 
     directionsService.route(
         {
@@ -169,7 +176,7 @@ function Map() {
                 onChange={(e) => setWaypoint2(e.target.value)}
               />
 
-            <button className="maps-button" onClick={handleRoute}>Get Directions</button>
+            <button className="maps-button" onClick={handleSubmit}>Get Directions</button>
         </div>
 
         {travelTime1 && <div className="travel-time">Route 1 - Estimated Time: {travelTime1}</div>}
