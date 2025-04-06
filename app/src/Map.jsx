@@ -25,6 +25,7 @@ function Map() {
   const [destination, setDestination] = useState("")
   const [directions, setDirections] = useState(null)
   const [travelTime, setTravelTime] = useState('')
+  const [travelDistance, setTravelDistance] = useState('')
 
   const onLoad = React.useCallback(function callback(map) {
     setMap(map)
@@ -50,6 +51,8 @@ function Map() {
                 setDirections(result);
                 const duration = result.routes[0].legs[0].duration.text
                 setTravelTime(duration)
+                const distance = result.routes[0].legs[0].distance.text
+                setTravelDistance(distance)
             } else {
                 alert("Directions request failed due to " + status)
             }
@@ -89,6 +92,7 @@ function Map() {
 
         {travelTime && <div className="travel-time">Estimated Time: {travelTime}</div>}
 
+        {travelDistance && <div className="travel-distance">Estimated Distance: {travelDistance}</div>}
     </div>
     
   ) : (
