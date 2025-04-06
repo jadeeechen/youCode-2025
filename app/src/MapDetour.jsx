@@ -179,13 +179,11 @@ function MapDetour() {
                   value={destination}
                   readOnly></input>
               
-              <button className="maps-button" onClick={handleRoute}>Start route!</button>
+              <button className="maps-button" onClick={handleNext}>Start route!</button>
   
           </div>
   
           {travelTime && <div className="travel-time">Estimated Time: {travelTime} min</div>}
-
-          <button className="go-next" onClick={handleNext}>Go Next</button>
   
       </div>
       
