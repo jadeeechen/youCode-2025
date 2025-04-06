@@ -14,6 +14,8 @@ const center = {
 
 const apiKey = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
 
+const directionsList = [["290 E 1st Ave Unit 100, Vancouver, BC V5T 1A6", "1285 W Broadway #600, Vancouver, BC V6H 3X8"]]
+
 function Map() {
   const { isLoaded } = useJsApiLoader({
     id: 'google-map-script',
@@ -24,6 +26,7 @@ function Map() {
   const [origin, setOrigin] = useState("")
   const [destination, setDestination] = useState("")
   const [directions, setDirections] = useState(null)
+  const [alt_directions, setAltDirections] = useState("")
   const [travelTime, setTravelTime] = useState('')
   const [travelDistance, setTravelDistance] = useState('')
 
@@ -49,15 +52,56 @@ function Map() {
         (result, status) => {
             if (status === "OK") {
                 setDirections(result);
-                const duration = result.routes[0].legs[0].duration.text
+                duration = result.routes[0].legs[0].duration.text
                 setTravelTime(duration)
-                const distance = result.routes[0].legs[0].distance.text
+                distance = result.routes[0].legs[0].distance.text
                 setTravelDistance(distance)
             } else {
                 alert("Directions request failed due to " + status)
             }
         }
     );
+
+    min_dist = distance
+    min_dist_route_num = 0
+    for (let i = 0; i < directionsList.length; i++){
+      directionsService.route(
+        {
+            origin,
+            destination,
+            travelMode: window.google.maps.TravelMode.DRIVING,
+            waypoints: directionsList[i]
+        },
+        (result, status) => {
+            if (status === "OK") {
+                current_distance = result.routes[0].legs[0].distance.text
+                if (current_distance<min_dist){
+                  min_dist = current_distance
+                  min_dist_route_num = i
+                }
+            } else {
+                alert("Directions request failed due to " + status)
+            }
+        }
+      );
+    }
+
+    directionsService.route(
+      {
+          origin,
+          destination,
+          travelMode: window.google.maps.TravelMode.DRIVING,
+          waypoints: directionsList[min_dist_route_num]
+      },
+      (result, status) => {
+          if (status === "OK") {
+            setAltDirections(result);
+          } else {
+              alert("Directions request failed due to " + status)
+          }
+      }
+    );
+    
   }
 
   return isLoaded ? (
@@ -71,6 +115,7 @@ function Map() {
                 onUnmount={onUnmount}
             >
                 <DirectionsRenderer directions={directions}/>
+                <DirectionsRenderer directions={alt_directions}/>
             </GoogleMap>
         </div>
 
