@@ -13,8 +13,8 @@
 
 .sign-in-container {
   margin-top: 200px;
-  margin-left: 20px;
-  margin-right: 20px;
+  margin-left: 100px;
+  margin-right: 100px;
   display: flex;
   flex-direction: column;
 }
@@ -29,7 +29,7 @@
 }
 
 .sign-in-text {
-  font-size: 1rem;
+  font-size: 1.2rem;
   text-align: left;
 }
 
@@ -48,7 +48,7 @@
 }
 
 .sign-in-input {
-  font-size: 1em;
+  font-size: 1.2em;
   font-family: inherit;
   border-radius: 8px;
   border: 1px solid rgb(201, 201, 201);
@@ -62,7 +62,7 @@
   color: white;
   margin: 20px;
   border-radius: 27px;
-  font-size: 1.2em;
+  font-size: 1.5em;
 }
 
 .maps-input {
@@ -78,6 +78,14 @@
   font-size: 1.2em;
 }
 
+.map {
+  position: relative;
+  width: 100%;
+  max-width: 500px;
+  aspect-ratio: 1 / 1; 
+  margin: 0 auto; 
+}
+
 .maps-button {
   margin: 12px;
   margin-bottom: 0px;
@@ -91,7 +99,7 @@
 .map-page-container {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  justify-content: center;
 }
 
 .map-button-container {
@@ -100,10 +108,9 @@
   display: flex;
   flex-direction: column;
   align-items: left;
-  margin-top: 20px;
-  margin-bottom: 100px;
-  margin-left: 20px;
-  margin-right: 20px;
+  margin: 20px;
+  margin-left: 100px;
+  margin-right: 100px;
   border-radius: 14pt;
 }
 
@@ -123,7 +130,7 @@
   display: flex;
   flex-direction: column;
   align-items: left;
-  margin: 20px;
+  margin: 100px;
   margin-top: 12px;
   margin-bottom: 12px;
   border-radius: 14pt;
@@ -167,10 +174,11 @@
   margin: 20px;
   margin-top: 100px;
   text-align: center;
+  justify-content: center;
 }
 
 .leaderboard-container h2 {
-  font-size: 2.5em;
+  font-size: 3em;
   color: #333;
 }
 
@@ -214,6 +222,8 @@
 .leaderboard-table-container {
   overflow-x: auto;
   width: 100%;
+  display: flex;
+  justify-content: center;
 }
 
 .leaderboard-table {

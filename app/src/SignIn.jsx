@@ -10,7 +10,7 @@ function SignIn() {
     return(
         <div className="sign-in-container">
             <div className="site-name">
-                <h1 className="site-title">QuickSave</h1>
+                <h1 className="site-title">QuickFork</h1>
                 <h4 className="site-tagline">Small Detours, Food Restores</h4>
             </div>
             <div className="sign-in-info-container">

@@ -4,8 +4,8 @@ import { useLocation, useNavigate } from 'react-router-dom'
 
 
 const containerStyle = {
-  width: '430px',
-  height: '430px',
+  width: '100%',
+  height: '100%',
 }
 
 const center = {
