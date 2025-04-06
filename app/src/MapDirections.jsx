@@ -4,8 +4,8 @@ import { useLocation, useNavigate } from 'react-router-dom'
 
 
 const containerStyle = {
-  width: '400px',
-  height: '400px',
+  width: '100%',
+  height: '100%',
 }
 
 const center = {
@@ -78,7 +78,7 @@ function MapDirections() {
   }
 
   return isLoaded && directions != null ? (
-    <div className="map-button=container">
+    <div className="map-container">
         <div className="map">
             <GoogleMap
                 mapContainerStyle={containerStyle}
@@ -91,12 +91,13 @@ function MapDirections() {
             </GoogleMap>
         </div>
 
-        <div className="button-container">
+        <div className="map-button-container">
             <input  
                 id="current-location" 
                 className="maps-input"
                 value={origin}
                 readOnly></input>
+            <hr></hr>
 
             <input 
                 id="destination"
@@ -104,11 +105,15 @@ function MapDirections() {
                 value={destination}
                 readOnly></input>
 
-            <button className="maps-button" onClick={handleRoute}>Find a food-saving route!</button>
-            <p className="find-text">We'll see if there's a food rescue match along your way.</p>
+            <hr className="map-button-container-bottom"></hr>
         </div>
 
-        {travelTime && <div className="travel-time">Estimated Time: {travelTime}</div>}
+        {travelTime && <h3 className="travel-time">You're {travelTime} away from your destination.</h3>}
+
+        <button className="maps-button-find-route" onClick={handleRoute}>Find a food rescue route!</button>
+        <p className="find-text">We'll see if there's a food rescue match along your way.</p>
+
+        
 
     </div>
     

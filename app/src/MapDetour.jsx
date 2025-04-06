@@ -3,8 +3,8 @@ import { GoogleMap, useJsApiLoader, DirectionsRenderer } from '@react-google-map
 import { useLocation, useNavigate } from 'react-router-dom'
 
 const containerStyle = {
-  width: '400px',
-  height: '400px',
+  width: '100%',
+  height: '100%',
 }
 
 const center = {
@@ -154,36 +154,39 @@ function MapDetour() {
               </GoogleMap>
           </div>
   
-          <div className="button-container">
+          <div className="map-button-container-detour">
               <input  
                   id="current-location" 
                   className="maps-input"
                   value={origin}
                   readOnly></input>
+              <hr></hr>
 
               <input 
                   id="pickup-point"
                   className="maps-input"
                   value={directionsList[minTravelIndex][0] ? directionsList[minTravelIndex][0].location : 'no value'  }
                   readOnly></input>
+              <hr></hr>
               
               <input 
                   id="dropoff-point"
                   className="maps-input"
                   value={directionsList[minTravelIndex][0] ? directionsList[minTravelIndex][1].location : 'no value'}
                   readOnly></input>
+              <hr></hr>
   
               <input 
                   id="destination"
                   className="maps-input"
                   value={destination}
                   readOnly></input>
-              
-              <button className="maps-button" onClick={handleNext}>Start route!</button>
-  
+
+              <hr className="map-button-container-bottom"></hr>
           </div>
   
-          {travelTime && <div className="travel-time">Estimated Time: {travelTime} min</div>}
+          <button className="maps-button-start-route" onClick={handleNext}>Start route!</button>
+          {travelTime && <h3 className="total-travel-time">Estimated Total Time: {travelTime} min</h3>}
   
       </div>
       

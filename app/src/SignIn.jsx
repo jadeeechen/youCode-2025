@@ -8,12 +8,12 @@ function SignIn() {
         navigate('/map')
     }
     return(
-        <div>
+        <div className="sign-in-container">
             <div className="site-name">
-                <h1>QuickSave</h1>
-                <h4>Small Detours, Food Restores</h4>
+                <h1 className="site-title">QuickFork</h1>
+                <h4 className="site-tagline">Small Detours, Food Restores</h4>
             </div>
-            <div className="sign-in-container">
+            <div className="sign-in-info-container">
                 <h4 className="sign-in-text">Email</h4>
                 <input type='text' className="sign-in-input" placeholder="Enter email"></input>
                 <h4 className="sign-in-text">Password</h4>
