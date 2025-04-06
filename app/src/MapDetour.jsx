@@ -32,7 +32,7 @@ function MapDetour() {
     const [directions, setDirections] = useState(null)
     const [travelTime, setTravelTime] = useState('')
     let minTravelTime = travelTime;
-    let minTravelIndex = -1;
+    let minTravelIndex = 0;
 
     const onLoad = React.useCallback(function callback(map) {
       setMap(map)
@@ -50,7 +50,7 @@ function MapDetour() {
       //Routing nonsense
 
       minTravelTime = initialTravelTime + 900;
-
+      let values_checked = 1;
       for (let i = 0; i < directionsList.length; i++){
         console.info("AT start of loop")
         console.info(i)
@@ -70,20 +70,19 @@ function MapDetour() {
                 }
                 console.info(current_duration)
                 console.info(minTravelTime)
-                console.info(current_duration)
                 if (current_duration<minTravelTime){
                   console.info("here")
                   minTravelTime = current_duration
                   minTravelIndex = i
+                  console.info(minTravelIndex)
                 }
               } else {
                 alert("Directions request failed due to " + status)
               }
+              values_checked++;
           }
         );
       }
-  
-      console.info(minTravelIndex)
 
       //return the right path
 
@@ -99,8 +98,8 @@ function MapDetour() {
             console.log(result)
               if (status === "OK" && result != null) {
                 setDirections(result)
-                setTravelTime(minTravelTime)
-                return [result, minTravelTime]
+                setTravelTime(minTravelTime/60)
+                return
               } else {
                   alert("Directions request failed due to " + status)
               }
@@ -118,8 +117,8 @@ function MapDetour() {
               if (status === "OK") {
                   const duration_local = result.routes[0].legs[0].duration.text
                   setDirections(result)
-                  setTravelTime(duration_local)
-                  return [result, duration_local]
+                  setTravelTime(duration_local/60)
+                  return
               } else {
                   alert("Directions request failed due to " + status)
               }
@@ -131,9 +130,10 @@ function MapDetour() {
       console.log("returned null")
       setDirections(null)
       setTravelTime('')
-      }, []);
+    }, []);
     
-    
+    console.info(directionsList[minTravelIndex][0].location)
+
     return isLoaded && directions != null ? (
       <div className="map-button=container">
           <div className="map">
@@ -155,27 +155,29 @@ function MapDetour() {
                   value={origin}
                   readOnly></input>
 
-              {/* <input 
+              <input 
                   id="pickup-point"
                   className="maps-input"
-                  value={minTravelIndex ? directionsList[minTravelIndex][0].location : 'no value'  }
+                  value={directionsList[minTravelIndex][0] ? directionsList[minTravelIndex][0].location : 'no value'  }
                   readOnly></input>
               
               <input 
                   id="dropoff-point"
                   className="maps-input"
-                  value={minTravelIndex ? directionsList[minTravelIndex][1].location : 'no value'}
-                  readOnly></input> */}
+                  value={directionsList[minTravelIndex][0] ? directionsList[minTravelIndex][1].location : 'no value'}
+                  readOnly></input>
   
               <input 
                   id="destination"
                   className="maps-input"
                   value={destination}
                   readOnly></input>
+              
+              <button className="maps-button" onClick={handleRoute}>Start route!</button>
   
           </div>
   
-          {travelTime && <div className="travel-time">Estimated Time: {travelTime}</div>}
+          {travelTime && <div className="travel-time">Estimated Time: {travelTime} min</div>}
   
       </div>
       
