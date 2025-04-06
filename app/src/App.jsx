@@ -1,17 +1,13 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
-import Map from './Map'
-import SignIn from './SignIn'
+import { BrowserRouter as Router} from 'react-router-dom'
+import AppRoutes from './AppRoutes'
 import './App.css'
 
 function App() {
-  return(
+  return (
     <Router>
-      <Routes>
-        <Route path="/map" element={<Map/>}/>
-        <Route path="/" element={<SignIn/>}/>
-      </Routes>
+      <AppRoutes/>
     </Router>
-  );
+  )
 }
 
 export default App

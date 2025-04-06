@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { GoogleMap, useJsApiLoader, DirectionsRenderer } from '@react-google-maps/api'
-
+import { useNavigate } from 'react-router-dom'
 
 const containerStyle = {
   width: '400px',
@@ -23,8 +23,8 @@ function Map() {
   const [_, setMap] = React.useState(null)
   const [origin, setOrigin] = useState("")
   const [destination, setDestination] = useState("")
-  const [directions, setDirections] = useState(null)
-  const [travelTime, setTravelTime] = useState('')
+
+  const navigate = useNavigate();
 
   const onLoad = React.useCallback(function callback(map) {
     setMap(map)
@@ -34,27 +34,15 @@ function Map() {
     setMap(null)
   }, [])
 
-  const handleRoute = () => {
+  const handleSubmit = () => {
     if (!origin || !destination || !window) return
-    
-    const directionsService = new window.google.maps.DirectionsService();
 
-    directionsService.route(
-        {
-            origin,
-            destination,
-            travelMode: window.google.maps.TravelMode.DRIVING,
-        },
-        (result, status) => {
-            if (status === "OK") {
-                setDirections(result);
-                const duration = result.routes[0].legs[0].duration.text
-                setTravelTime(duration)
-            } else {
-                alert("Directions request failed due to " + status)
-            }
-        }
-    );
+    navigate('/directions', {
+      state: {
+        origin,
+        destination
+      } 
+    });
   }
 
   return isLoaded ? (
@@ -67,7 +55,6 @@ function Map() {
                 onLoad={onLoad}
                 onUnmount={onUnmount}
             >
-                <DirectionsRenderer directions={directions}/>
             </GoogleMap>
         </div>
 
@@ -84,11 +71,8 @@ function Map() {
                 placeholder='Destination'
                 onChange={(e) => setDestination(e.target.value)}></input>
 
-            <button className="maps-button" onClick={handleRoute}>Get Directions</button>
+            <button className="maps-button" onClick={handleSubmit}>Get Directions</button>
         </div>
-
-        {travelTime && <div className="travel-time">Estimated Time: {travelTime}</div>}
-
     </div>
     
   ) : (
