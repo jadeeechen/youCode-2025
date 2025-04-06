@@ -3,8 +3,8 @@ import { GoogleMap, useJsApiLoader, DirectionsRenderer } from '@react-google-map
 import { useNavigate } from 'react-router-dom'
 
 const containerStyle = {
-  width: '400px',
-  height: '400px',
+  width: '430px',
+  height: '430px',
 }
 
 const center = {
@@ -46,35 +46,39 @@ function Map() {
   }
 
   return isLoaded ? (
-    <div className="map-button=container">
-        <div className="map">
-            <GoogleMap
-                mapContainerStyle={containerStyle}
-                center={center}
-                zoom={16}
-                onLoad={onLoad}
-                onUnmount={onUnmount}
-            >
-            </GoogleMap>
-        </div>
+    <div className="map-page-container">
+      <div className="map-container">
+          <div className="map">
+              <GoogleMap
+                  mapContainerStyle={containerStyle}
+                  center={center}
+                  zoom={16}
+                  onLoad={onLoad}
+                  onUnmount={onUnmount}
+              >
+              </GoogleMap>
+          </div>
 
-        <div className="button-container">
-            <input  
-                type="text" 
-                className="maps-input"
-                placeholder='Current Location'
-                onChange={(e) => setOrigin(e.target.value)}></input>
+          <div className="map-button-container">
+              <input  
+                  type="text" 
+                  className="maps-input"
+                  placeholder='Current Location'
+                  onChange={(e) => setOrigin(e.target.value)}></input>
+              <hr></hr>
 
-            <input 
-                type="text"
-                className="maps-input"
-                placeholder='Destination'
-                onChange={(e) => setDestination(e.target.value)}></input>
+              <input 
+                  type="text"
+                  className="maps-input"
+                  placeholder='Destination'
+                  onChange={(e) => setDestination(e.target.value)}></input>
 
-            <button className="maps-button" onClick={handleSubmit}>Get Directions</button>
-        </div>
+              <hr className="map-button-container-bottom"></hr>
+          </div>
+          <button className="maps-button" onClick={handleSubmit}>Get Directions</button>
+          <p className="directions-text">Let's see how long it takes to get to your destination.</p>
+      </div>
     </div>
-    
   ) : (
     <></>
   )

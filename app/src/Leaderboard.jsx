@@ -91,7 +91,7 @@ const Leaderboard = () => {
       <h2>Leaderboard</h2>
 
       <div className="stats-container">
-        <h3>Your Total Impact</h3>
+        <h3 className="impact-text">Your Total Impact</h3>
         <p><span role="img" aria-label="meal">🥘</span> Meals Rescued: {leaderboard.find(player => player.name === name)?.meals || 0}</p>
         <p><span role="img" aria-label="co2">🌱</span> CO2 Reduced: {leaderboard.find(player => player.name === name)?.co2 || 0} kg</p>
         <p><span role="img" aria-label="people">👩‍👩‍👧‍👦</span> People Fed: {leaderboard.find(player => player.name === name)?.ppf || 0}</p>
@@ -111,36 +111,38 @@ const Leaderboard = () => {
       {loading ? (
         <p>Loading leaderboard...</p>
       ) : (
-        <table className="leaderboard-table">
-          <thead>
-            <tr>
-              <th>Rank</th>
-              <th>Name</th>
-              <th>Trips</th>
-              <th>CO2 Reduced</th>
-              <th>Meals Rescued</th>
-              <th>People Fed</th>
-            </tr>
-          </thead>
-          <tbody>
-            {leaderboard.length > 0 ? (
-              leaderboard.map((player, index) => (
-                <tr key={player.id}>
-                  <td>{index + 1}</td>
-                  <td>{player.name}</td>
-                  <td>{player.trips}</td>
-                  <td>{player.co2}</td>
-                  <td>{player.meals}</td>
-                  <td>{player.ppf}</td>
-                </tr>
-              ))
-            ) : (
+        <div className="leaderboard-table-container"> 
+          <table className="leaderboard-table">
+            <thead>
               <tr>
-                <td colSpan="3">No scores yet.</td>
+                <th>Rank</th>
+                <th>Name</th>
+                <th>Trips</th>
+                <th>CO2 Reduced</th>
+                <th>Meals Rescued</th>
+                <th>People Fed</th>
               </tr>
-            )}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {leaderboard.length > 0 ? (
+                leaderboard.map((player, index) => (
+                  <tr key={player.id}>
+                    <td>{index + 1}</td>
+                    <td>{player.name}</td>
+                    <td>{player.trips}</td>
+                    <td>{player.co2}</td>
+                    <td>{player.meals}</td>
+                    <td>{player.ppf}</td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan="3">No scores yet.</td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+        </div>
       )}
     </div>
   );
