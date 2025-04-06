@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react'
+import React, { useState, useEffect } from 'react'
 import { GoogleMap, useJsApiLoader, DirectionsRenderer } from '@react-google-maps/api'
 import { useLocation, useNavigate } from 'react-router-dom'
 
@@ -56,7 +56,7 @@ function MapDetour() {
       //Routing nonsense
 
       minTravelTime = initialTravelTime + 900;
-      let values_checked = 1;
+      // let values_checked = 1;
       for (let i = 0; i < directionsList.length; i++){
         console.info("AT start of loop")
         console.info(i)
@@ -85,7 +85,7 @@ function MapDetour() {
               } else {
                 alert("Directions request failed due to " + status)
               }
-              values_checked++;
+              // values_checked++;
           }
         );
       }
