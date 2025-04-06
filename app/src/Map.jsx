@@ -14,7 +14,7 @@ const center = {
 
 const apiKey = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
 
-const directionsList = [["290 E 1st Ave Unit 100, Vancouver, BC V5T 1A6", "1285 W Broadway #600, Vancouver, BC V6H 3X8"]]
+const directionsList = [[{location: "290 E 1st Ave Unit 100, Vancouver, BC V5T 1A6"}, {location: "1285 W Broadway #600, Vancouver, BC V6H 3X8"}]]
 
 function Map() {
   const { isLoaded } = useJsApiLoader({
@@ -42,19 +42,22 @@ function Map() {
     if (!origin || !destination || !window) return
     
     const directionsService = new window.google.maps.DirectionsService();
+    distM = 0;
 
     directionsService.route(
         {
             origin,
             destination,
             travelMode: window.google.maps.TravelMode.DRIVING,
+            waypoints: [{location: "kitsilano"}]
         },
         (result, status) => {
             if (status === "OK") {
                 setDirections(result);
-                duration = result.routes[0].legs[0].duration.text
+                const duration = result.routes[0].legs[0].duration.text
                 setTravelTime(duration)
-                distance = result.routes[0].legs[0].distance.text
+                const distance = result.routes[0].legs[0].distance.text
+                distM = result.routes[0].legs[0].distance.value
                 setTravelDistance(distance)
             } else {
                 alert("Directions request failed due to " + status)
@@ -62,7 +65,7 @@ function Map() {
         }
     );
 
-    min_dist = distance
+    min_dist = distM
     min_dist_route_num = 0
     for (let i = 0; i < directionsList.length; i++){
       directionsService.route(
@@ -74,13 +77,17 @@ function Map() {
         },
         (result, status) => {
             if (status === "OK") {
-                current_distance = result.routes[0].legs[0].distance.text
-                if (current_distance<min_dist){
-                  min_dist = current_distance
-                  min_dist_route_num = i
-                }
+              legs = result.routes[0].legs
+              current_distance = 0
+              for (let j = 0; j<legs.length; j++){
+                current_distance += result.routes[0].legs[j].distance.value
+              }
+              if (current_distance<min_dist){
+                min_dist = current_distance
+                min_dist_route_num = i
+              }
             } else {
-                alert("Directions request failed due to " + status)
+              alert("Directions request failed due to " + status)
             }
         }
       );
@@ -115,7 +122,6 @@ function Map() {
                 onUnmount={onUnmount}
             >
                 <DirectionsRenderer directions={directions}/>
-                <DirectionsRenderer directions={alt_directions}/>
             </GoogleMap>
         </div>
 
