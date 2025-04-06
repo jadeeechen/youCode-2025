@@ -1,7 +1,6 @@
 #root {
   max-width: 1280px;
   margin: 0 auto;
-  padding: 2rem;
   text-align: center;
 }
 
@@ -25,4 +24,33 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+.sign-in-container {
+  display: flex;
+  flex-direction: column;
+  border-radius: 8px;
+  border: 1px solid rgb(225, 225, 225);
+  padding: 20px;
+}
+
+.sign-in-text {
+  font-size: 1rem;
+  text-align: left;
+}
+
+.sign-in-input {
+  font-size: 1em;
+  border-radius: 8px;
+  border: 1px solid rgb(201, 201, 201);
+  padding: 0.6em 1.2em;
+  margin-bottom: 12px;
+  text-align: center;
+}
+
+.sign-in-button {
+  background-color: black;
+  color: white;
+  margin-top: 12px;
+  margin-bottom: 20px;
 }
