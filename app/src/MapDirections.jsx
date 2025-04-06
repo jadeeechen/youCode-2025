@@ -30,6 +30,7 @@ function MapDirections() {
   const [_, setMap] = React.useState(null)
   const [directions, setDirections] = useState(null)
   const [travelTime, setTravelTime] = useState('')
+  const [travelTimeNumeric, setTravelTimeNumeric] = useState('')
 
   const onLoad = React.useCallback(function callback(map) {
     setMap(map)
@@ -54,7 +55,9 @@ function MapDirections() {
             if (status === "OK") {
                 setDirections(result);
                 const duration = result.routes[0].legs[0].duration.text
+                const durationNumeric = result.routes[0].legs[0].duration.value
                 setTravelTime(duration)
+                setTravelTimeNumeric(durationNumeric)
             } else {
                 alert("Directions request failed due to " + status)
             }
@@ -68,12 +71,13 @@ function MapDirections() {
     navigate('/detour-directions', {
       state: {
         origin,
-        destination
+        destination, 
+        travelTimeNumeric
       } 
     });
   }
 
-  return isLoaded ? (
+  return isLoaded && directions != null ? (
     <div className="map-button=container">
         <div className="map">
             <GoogleMap
