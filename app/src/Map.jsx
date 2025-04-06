@@ -49,7 +49,7 @@ function Map() {
             origin,
             destination,
             travelMode: window.google.maps.TravelMode.DRIVING,
-            waypoints: [{location: "kitsilano"}]
+            waypoints: [{location: "kitsilano"}, {location: "UBC"}]
         },
         (result, status) => {
             if (status === "OK") {
