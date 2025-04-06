@@ -53,6 +53,9 @@ const Leaderboard = () => {
         const playerDocRef = doc(db, 'leaderboard', existingPlayer.id);
         await updateDoc(playerDocRef, {
           deliveries: increment(1),
+          co2: increment(2.4),
+          ppf: increment(1),
+          meals: increment(2)
         });
       } else {
         await addDoc(collection(db, 'leaderboard'), {
