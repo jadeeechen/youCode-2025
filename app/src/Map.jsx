@@ -24,6 +24,7 @@ function Map() {
   const [origin, setOrigin] = useState("")
   const [destination, setDestination] = useState("")
   const [directions, setDirections] = useState(null)
+  const [travelTime, setTravelTime] = useState('')
 
   const onLoad = React.useCallback(function callback(map) {
     setMap(map)
@@ -47,6 +48,8 @@ function Map() {
         (result, status) => {
             if (status === "OK") {
                 setDirections(result);
+                const duration = result.routes[0].legs[0].duration.text
+                setTravelTime(duration)
             } else {
                 alert("Directions request failed due to " + status)
             }
@@ -83,6 +86,8 @@ function Map() {
 
             <button className="maps-button" onClick={handleRoute}>Get Directions</button>
         </div>
+
+        {travelTime && <div className="travel-time">Estimated Time: {travelTime}</div>}
 
     </div>
     
